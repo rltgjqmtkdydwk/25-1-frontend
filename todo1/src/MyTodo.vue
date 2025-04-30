@@ -16,6 +16,7 @@ function addTodo() {
   const lastId = todos.value.length == 0 ? 0 :
     todos.value[todos.value.length - 1].id;
   todos.value.push({id: lastId + 1, title: title.value, date: date.value, done: false});
+  todos.value.sort((a, b) => a.date.localeCompare(b.date))
   localStorage.setItem(KEY, JSON.stringify(todos.value))
   title.value = "";
 }
