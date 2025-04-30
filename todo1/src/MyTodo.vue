@@ -2,9 +2,9 @@
 import { ref } from 'vue';
 
 const todos = ref([
-  { id: 1, title: "과제" },
-  { id: 2, title: "시험공부" },
-  { id: 3, title:"코딩훈련" }
+  { id: 1, title: "과제", done: false},
+  { id: 2, title: "시험공부", done: false },
+  { id: 3, title:"코딩훈련", done: false }
 ]);
 const title = ref('');
 
@@ -29,9 +29,12 @@ function deleteTodo(index) {
         <tr><td>ID</td><td>할일</td></tr>
       </thead>
       <tbody>
-        <tr v-for="(todo, index) in todos" v-bind:key="todo.id">
+        <tr v-for="(todo, index) in todos"
+            v-bind:key="todo.id" v-bind:class="{gray: todo.done}">
           <td>{{ todo.id }}</td>
-          <td>{{ todo.title }}
+          <td>
+            <input type="checkbox" v-model="todo.done" />
+            {{ todo.title }}
             <span v-on:click="deleteTodo(index)">x</span>
           </td>
         </tr>
@@ -50,7 +53,9 @@ td { border: 1px solid gray; padding: 6px; }
 td:nth-child(1) { text-align: center; width: 30px; }
 input[type=text] { padding: 5px; margin-right: 5px; width: 300px; }
 button { padding: 0.3em 1.5em; }
-span { font-weight: bold; float: right; }
-span:hover { color: red; cursor: pointer; }
+span { font-weight: bold; cursor: pointer; float: right; }
+span:hover { color: red; }
 tr:has(span:hover) { background-color: #ffd; }
+tr.gray { background-color: #f8f8f8; color: #bbb; text-decoration: line-through; }
+input[type=checkbox] { accent-color: #bbb; }
 </style>
