@@ -9,10 +9,7 @@ const editId = ref(0);   // 수정할 항목의 id
 
 const KEY = "todo2.todos"; // localStorage 저장 키
 
-onMounted(() => {
-  const json = localStorage.getItem(KEY);
-  if (json) todos.value = JSON.parse(json);
-})
+onMounted(() => load());
 
 function addTodo() {
   const lastId = todos.value.length == 0 ? 0 :
@@ -24,6 +21,11 @@ function addTodo() {
   title.value = "";
   progress.value = 0;
   save();
+}
+
+function load() {
+  const json = localStorage.getItem(KEY);
+  if (json) todos.value = JSON.parse(json);  
 }
 
 function save() {
@@ -39,6 +41,11 @@ function deleteTodo(index) {
 
 function updateTodo() {
   save();
+  editId.value = 0;
+}
+
+function cancel() { // 수정 취소 함수
+  load();           // 로컬에 저장된 내용 불러오기
   editId.value = 0;
 }
 </script>
@@ -58,8 +65,8 @@ function updateTodo() {
           <td>{{ todo.progress }}</td>
           <td>{{ todo.title }}</td>
           <td>
-            <button @click="editId = todo.id" title="수정">e</button>
-            <button @click="deleteTodo(index)" title="삭제">-</button>
+            <button @click="editId = todo.id" :disabled="editId > 0" title="수정">e</button>
+            <button @click="deleteTodo(index)" :disabled="editId > 0" title="삭제">-</button>
           </td>
         </template>
         <template v-else>
@@ -69,7 +76,7 @@ function updateTodo() {
             <td><input type="text" v-model.trim="todo.title" /></td>
             <td>
                 <button @click="updateTodo()" class="sm">저장</button>
-                <button @click="editId = 0" class="sm">취소</button>
+                <button @click="cancel()" class="sm">취소</button>
             </td>
         </template>
         </tr>
@@ -78,10 +85,10 @@ function updateTodo() {
         </tr>
         <tr>
           <td></td>
-          <td><input type="date" v-model="due" /></td>
-          <td><input type="number" v-model="progress" step="10" /></td>
-          <td><input type="text" v-model.trim="title" /></td>
-          <td><button @click="addTodo()" title="저장">+</button></td>
+          <td><input type="date" v-model="due" :disabled="editId > 0" /></td>
+          <td><input type="number" v-model="progress" step="10" :disabled="editId > 0" /></td>
+          <td><input type="text" v-model.trim="title" :disabled="editId > 0" /></td>
+          <td><button @click="addTodo()" title="저장" :disabled="editId > 0" >+</button></td>
         </tr>
       </tbody>
     </table>
