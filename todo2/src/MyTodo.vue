@@ -29,7 +29,12 @@ function addTodo() {
 function save() {
   localStorage.setItem(KEY, JSON.stringify(todos.value));
 }
-
+function deleteTodo(index) {
+  if (confirm("삭제하시겠습니까?")) {
+    todos.value.splice(index, 1);
+    save();
+  }
+}
 </script>
 
 <template>
@@ -45,6 +50,7 @@ function save() {
           <td>{{ todo.due }}</td>
           <td>{{ todo.progress }}</td>
           <td>{{ todo.title }}</td>
+          <td><button @click="deleteTodo(index)" title="삭제">-</button></td>
         </tr>
         <tr v-if="todos.length == 0">
           <td></td><td>할 일이 없습니다</td>
