@@ -2,10 +2,10 @@
 import { ref, onMounted } from 'vue';
 
 const todos = ref([]);   // 할일 목록
-
 const title = ref('');   // 제목 입력
 const due = ref('');     // 기한 입력
 const progress = ref(0); // 진척도 입력
+const editId = ref(0);   // 수정할 항목의 id
 
 const KEY = "todo2.todos"; // localStorage 저장 키
 
@@ -29,11 +29,17 @@ function addTodo() {
 function save() {
   localStorage.setItem(KEY, JSON.stringify(todos.value));
 }
+
 function deleteTodo(index) {
   if (confirm("삭제하시겠습니까?")) {
     todos.value.splice(index, 1);
     save();
   }
+}
+
+function updateTodo() {
+  save();
+  editId.value = 0;
 }
 </script>
 
@@ -46,11 +52,26 @@ function deleteTodo(index) {
       </thead>
       <tbody>
         <tr v-for="todo in todos" v-bind:key="todo.id">
+        <template v-if="editId != todo.id">
           <td>{{ todo.id }}</td>
           <td>{{ todo.due }}</td>
           <td>{{ todo.progress }}</td>
           <td>{{ todo.title }}</td>
-          <td><button @click="deleteTodo(index)" title="삭제">-</button></td>
+          <td>
+            <button @click="editId = todo.id" title="수정">e</button>
+            <button @click="deleteTodo(index)" title="삭제">-</button>
+          </td>
+        </template>
+        <template v-else>
+            <td>{{ todo.id }}</td>
+            <td><input type="date" v-model="todo.due" /></td>
+            <td><input type="number" v-model="todo.progress" step="10" /></td>
+            <td><input type="text" v-model.trim="todo.title" /></td>
+            <td>
+                <button @click="updateTodo()" class="sm">저장</button>
+                <button @click="editId = 0" class="sm">취소</button>
+            </td>
+        </template>
         </tr>
         <tr v-if="todos.length == 0">
           <td></td><td>할 일이 없습니다</td>
