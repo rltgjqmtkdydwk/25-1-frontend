@@ -41,6 +41,11 @@ function deleteTodo(index) {
   }
 }
 
+function plzwriteTodo() {
+  alert("할 일을 입력해주세요!");
+  showAddForm = true;
+}
+
 function updateTodo() {
   save();
   editId.value = 0;
@@ -97,7 +102,7 @@ function cancel() { // 수정 취소 함수
             <td><input type="date" v-model="due" :disabled="editId > 0" /></td>
             <td><input type="number" v-model="progress" step="10" :disabled="editId > 0" /></td>
             <td><input type="text" v-model.trim="title" :disabled="editId > 0" /></td>
-            <td><button @click="addTodo()" :disabled="editId > 0">+</button></td>
+            <td><button @click="title.trim() == '' ? plzwriteTodo():addTodo()" :disabled="editId > 0">+</button></td>
         </tr>
       </tbody>
     </table>
