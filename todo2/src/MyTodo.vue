@@ -63,7 +63,7 @@ function cancel() { // 수정 취소 함수
     <table>
       <thead>
         <tr><td>ID</td><td>기한</td><td>진척도</td><td>할일</td>
-            <td v-if="todos.length > 0 && !showAddForm"><button @click="showAddForm = true">!</button></td>
+            <td v-if="todos.length > 0 && !showAddForm"><button @click="showAddForm = true" :disabled="editId > 0">!</button></td>
         </tr>
       </thead>
       <tbody>
@@ -75,7 +75,7 @@ function cancel() { // 수정 취소 함수
             <td>{{ todo.progress }}</td>
             <td>{{ todo.title }}</td>
             <td>
-                <button @click="editId = todo.id" :disabled="editId > 0" title="수정">e</button>
+                <button @click="editId = todo.id" :disabled="editId > 0 || showAddForm" title="수정">e</button>
                 <button @click="deleteTodo(index)" :disabled="editId > 0" title="삭제">-</button>
             </td>
             </template>
@@ -93,16 +93,17 @@ function cancel() { // 수정 취소 함수
 
         <!-- 할 일 없음 -->
         <tr v-if="todos.length == 0 && !showAddForm">
-            <td colspan="4"><div class="no-todo">할 일이 없습니다</div> <button @click="showAddForm = true">!</button></td>
+            <td colspan="4"><div class="no-todo">할 일이 없습니다</div> 
+              <button @click="showAddForm = true">!</button></td>
         </tr>
 
         <!-- 입력 폼 표시 (todos 유무 상관없이 showAddForm true면 표시됨) -->
         <tr v-show="showAddForm">
             <td></td>
-            <td><input type="date" v-model="due" :disabled="editId > 0" /></td>
-            <td><input type="number" v-model="progress" step="10" :disabled="editId > 0" /></td>
-            <td><input type="text" v-model.trim="title" :disabled="editId > 0" /></td>
-            <td><button @click="title.trim() == '' ? plzwriteTodo():addTodo()" :disabled="editId > 0">+</button></td>
+            <td><input type="date" v-model="due" /></td>
+            <td><input type="number" v-model="progress" step="10" /></td>
+            <td><input type="text" v-model.trim="title" /></td>
+            <td><button @click="title.trim() == '' ? plzwriteTodo():addTodo()" >+</button></td>
         </tr>
       </tbody>
     </table>
