@@ -59,15 +59,16 @@ function cancel() { // 수정 취소 함수
 
 <template>
   <div>
-    <h1>할 일</h1>
+    <h1>TO DO LIST</h1>
     <table>
       <thead>
-        <tr><td>ID</td><td>기한</td><td>진척도</td><td>할일</td>
-            <td v-if="todos.length > 0 && !showAddForm"><button @click="showAddForm = true" :disabled="editId > 0">!</button></td>
+        <tr><td>ID</td><td>기한</td><td>진척도</td><td>할 일</td>
+            <td v-if="todos.length > 0 && !showAddForm">
+              <button @click="showAddForm = true" :disabled="editId > 0" title="등록">!</button>
+            </td>
         </tr>
       </thead>
       <tbody>
-        <!-- 목록 출력 -->
         <tr v-for="(todo, index) in todos" :key="todo.id">
             <template v-if="editId != todo.id">
             <td>{{ todo.id }}</td>
@@ -75,7 +76,7 @@ function cancel() { // 수정 취소 함수
             <td>{{ todo.progress }}</td>
             <td>{{ todo.title }}</td>
             <td>
-                <button @click="editId = todo.id" :disabled="editId > 0 || showAddForm" title="수정">e</button>
+                <button @click="editId = todo.id" :disabled="editId > 0 || showAddForm" title="수정">✎</button>
                 <button @click="deleteTodo(index)" :disabled="editId > 0" title="삭제">-</button>
             </td>
             </template>
@@ -91,13 +92,11 @@ function cancel() { // 수정 취소 함수
             </template>
         </tr>
 
-        <!-- 할 일 없음 -->
         <tr v-if="todos.length == 0 && !showAddForm">
             <td colspan="4"><div class="no-todo">할 일이 없습니다</div> 
-              <button @click="showAddForm = true">!</button></td>
+              <button @click="showAddForm = true" title="등록">!</button></td>
         </tr>
 
-        <!-- 입력 폼 표시 (todos 유무 상관없이 showAddForm true면 표시됨) -->
         <tr v-show="showAddForm">
             <td></td>
             <td><input type="date" v-model="due" /></td>
@@ -112,8 +111,8 @@ function cancel() { // 수정 취소 함수
 
 <style scoped>
 h1 { border-bottom: 1px solid gray; }
-table { margin: 1em 0; }
-thead { background-color: #eee; text-align: center; }
+table { margin: 1em auto; }
+thead { background-color: #eee; text-align: center; font-weight: bold ;}
 td { border-bottom: 1px solid #ccc; padding: 0.4em; font-size: 11pt; }
 td:nth-child(1) { text-align: center; width: 2em; } /* ID */
 td:nth-child(2) { text-align: center; width: 8em; } /* 기한 */
@@ -125,5 +124,4 @@ input[type=date], input[type=number], input[type=text] {
 input[type=number] { width: 4em; }
 input[type=text] { width: 17em; }
 button { font-family: Courier; margin-right: 2px; font-size: 11pt; }
-
 </style>
