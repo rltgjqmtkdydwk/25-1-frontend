@@ -75,7 +75,7 @@ function cancel() { // 수정 취소 함수
             <td>{{ todo.due }}</td>
             <td>{{ todo.progress }}</td>
             <td>{{ todo.title }}</td>
-            <td>
+            <td class="button-group">
                 <button @click="editId = todo.id" :disabled="editId > 0 || showAddForm" title="수정">✎</button>
                 <button @click="deleteTodo(index)" :disabled="editId > 0" title="삭제">-</button>
             </td>
@@ -85,7 +85,7 @@ function cancel() { // 수정 취소 함수
             <td><input type="date" v-model="todo.due" /></td>
             <td><input type="number" v-model="todo.progress" step="10" /></td>
             <td><input type="text" v-model.trim="todo.title" /></td>
-            <td>
+            <td class="button-group">
                 <button @click="updateTodo()" class="sm">저장</button>
                 <button @click="cancel()" class="sm">취소</button>
             </td>
@@ -93,7 +93,7 @@ function cancel() { // 수정 취소 함수
         </tr>
 
         <tr v-if="todos.length == 0 && !showAddForm">
-            <td colspan="4"><div class="no-todo">할 일이 없습니다</div> 
+            <td colspan="4" class="no-todo">할 일이 없습니다 &nbsp;
               <button @click="showAddForm = true" title="등록">!</button></td>
         </tr>
 
@@ -110,18 +110,31 @@ function cancel() { // 수정 취소 함수
 </template>
 
 <style scoped>
-h1 { border-bottom: 1px solid gray; }
+h1 { border-bottom: 1px solid #55bbe6; text-align: center; color: #55bbe6; }
 table { margin: 1em auto; }
-thead { background-color: #eee; text-align: center; font-weight: bold ;}
+thead { background-color: #55bbe64e; text-align: center; font-weight: bold; }
+tbody tr:hover { background-color: #f9f9f9; }
+button:hover:enabled { background-color: aliceblue; transform: scale(1.05); }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+button { 
+  font-family: Courier; margin-right: 2px; font-size: 11pt;
+  padding: 4px 8px; 
+  border: 1px solid #55bbe6;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
 td { border-bottom: 1px solid #ccc; padding: 0.4em; font-size: 11pt; }
 td:nth-child(1) { text-align: center; width: 2em; } /* ID */
 td:nth-child(2) { text-align: center; width: 8em; } /* 기한 */
 td:nth-child(3) { text-align: center; width: 4em; } /* 진척도 */
-td:nth-child(4) { text-align: center; width: 17em; } /* 할일 */
+td:nth-child(4) { text-align: center; width: 22em; } /* 할일 */
+.button-group { display: flex; justify-content: center; gap: 4px; }  /* 버튼 */
 td:has(input) { padding: 0; }
 input[type=date], input[type=number], input[type=text] {
   padding: 0.4em; height: 1.2em; font-size: 11pt; }
 input[type=number] { width: 4em; }
 input[type=text] { width: 17em; }
-button { font-family: Courier; margin-right: 2px; font-size: 11pt; }
+.no-todo { font-style: italic; color: #888; }
 </style>
