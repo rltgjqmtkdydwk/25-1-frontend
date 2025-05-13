@@ -88,8 +88,7 @@ function cancel() { // 수정 취소 함수
 
         <!-- 할 일 없음 -->
         <tr v-if="todos.length == 0 && !showAddForm">
-            <td colspan="4">할 일이 없습니다</td>
-            <td><button @click="showAddForm = true">!</button></td>
+            <td colspan="4"><div class="no-todo">할 일이 없습니다</div> <button @click="showAddForm = true">!</button></td>
         </tr>
 
         <!-- 입력 폼 표시 (todos 유무 상관없이 showAddForm true면 표시됨) -->
@@ -110,11 +109,15 @@ h1 { border-bottom: 1px solid gray; }
 table { margin: 1em 0; }
 thead { background-color: #eee; text-align: center; }
 td { border-bottom: 1px solid #ccc; padding: 0.4em; font-size: 11pt; }
-td:nth-child(1) { text-align: center; width: 2em; }
+td:nth-child(1) { text-align: center; width: 2em; } /* ID */
+td:nth-child(2) { text-align: center; width: 8em; } /* 기한 */
+td:nth-child(3) { text-align: center; width: 4em; } /* 진척도 */
+td:nth-child(4) { text-align: center; width: 17em; } /* 할일 */
 td:has(input) { padding: 0; }
 input[type=date], input[type=number], input[type=text] {
   padding: 0.4em; height: 1.2em; font-size: 11pt; }
 input[type=number] { width: 4em; }
 input[type=text] { width: 17em; }
 button { font-family: Courier; margin-right: 2px; font-size: 11pt; }
+
 </style>
