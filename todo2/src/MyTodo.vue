@@ -69,28 +69,30 @@ function cancel() { // 수정 취소 함수
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(todo, index) in todos" :key="todo.id">
-            <template v-if="editId != todo.id">
-            <td>{{ todo.id }}</td>
-            <td>{{ todo.due }}</td>
-            <td>{{ todo.progress }}</td>
-            <td>{{ todo.title }}</td>
-            <td class="button-group">
-                <button @click="editId = todo.id" :disabled="editId > 0 || showAddForm" title="수정">✎</button>
-                <button @click="deleteTodo(index)" :disabled="editId > 0" title="삭제">-</button>
-            </td>
-            </template>
-            <template v-else>
-            <td>{{ todo.id }}</td>
-            <td><input type="date" v-model="todo.due" /></td>
-            <td><input type="number" v-model="todo.progress" step="10" /></td>
-            <td><input type="text" v-model.trim="todo.title" /></td>
-            <td class="button-group">
-                <button @click="updateTodo()" class="sm">저장</button>
-                <button @click="cancel()" class="sm">취소</button>
-            </td>
-            </template>
-        </tr>
+        <TransitionGroup name="todo">
+          <tr v-for="(todo, index) in todos" :key="todo.id">
+              <template v-if="editId != todo.id">
+              <td>{{ todo.id }}</td>
+              <td>{{ todo.due }}</td>
+              <td>{{ todo.progress }}</td>
+              <td>{{ todo.title }}</td>
+              <td class="button-group">
+                  <button @click="editId = todo.id" :disabled="editId > 0 || showAddForm" title="수정">✎</button>
+                  <button @click="deleteTodo(index)" :disabled="editId > 0" title="삭제">-</button>
+              </td>
+              </template>
+              <template v-else>
+              <td>{{ todo.id }}</td>
+              <td><input type="date" v-model="todo.due" /></td>
+              <td><input type="number" v-model="todo.progress" step="10" /></td>
+              <td><input type="text" v-model.trim="todo.title" /></td>
+              <td class="button-group">
+                  <button @click="updateTodo()" class="sm">저장</button>
+                  <button @click="cancel()" class="sm">취소</button>
+              </td>
+              </template>
+          </tr>
+        </TransitionGroup>
 
         <tr v-if="todos.length == 0 && !showAddForm">
             <td colspan="4" class="no-todo">할 일이 없습니다 &nbsp;
@@ -125,6 +127,8 @@ button {
   cursor: pointer;
   transition: background-color 0.2s, transform 0.1s;
 }
+.todo-move, .todo-enter-active, .todo-leave-active { transition: all 0.5s ease; }
+.todo-enter-from, .todo-leave-to { opacity: 0; transform: translateX(10em); }
 td { border-bottom: 1px solid #ccc; padding: 0.4em; font-size: 11pt; }
 td:nth-child(1) { text-align: center; width: 2em; } /* ID */
 td:nth-child(2) { text-align: center; width: 8em; } /* 기한 */
