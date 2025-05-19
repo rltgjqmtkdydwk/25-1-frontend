@@ -9,6 +9,7 @@ const editId = ref(0);   // 수정할 항목의 id
 
 const KEY = "todo2.todos"; // localStorage 저장 키
 const showAddForm = ref(false); // 입력 폼 표시 여부
+let animationName = "";
 
 onMounted(() => load());
 
@@ -28,6 +29,7 @@ function addTodo() {
 function load() {
   const json = localStorage.getItem(KEY);
   if (json) todos.value = JSON.parse(json);  
+  setTimeout(() => animationName = "todo", 1000);
 }
 
 function save() {
@@ -69,7 +71,7 @@ function cancel() { // 수정 취소 함수
         </tr>
       </thead>
       <tbody>
-        <TransitionGroup name="todo">
+        <TransitionGroup :name="animationName">
           <tr v-for="(todo, index) in todos" :key="todo.id">
               <template v-if="editId != todo.id">
               <td>{{ todo.id }}</td>
