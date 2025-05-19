@@ -20,6 +20,10 @@ function addTodo() {
   todos.value.push({id: lastId + 1, title: title.value, // 입력된 내용으로 새 할일 등록
     due: due.value, progress: progress.value});
 
+  todos.value.sort((a, b) => {
+    const dateDiff = new Date(a.due) - new Date(b.due);
+    return dateDiff !== 0 ? dateDiff : a.progress - b.progress;
+  });
   title.value = "";
   progress.value = 0;
   showAddForm.value = false;
