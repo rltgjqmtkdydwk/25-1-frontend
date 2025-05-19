@@ -1,11 +1,13 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import ConfirmModal from './ConfirmModal.vue'
 
 const todos = ref([]);   // 할일 목록
 const title = ref('');   // 제목 입력
 const due = ref('');     // 기한 입력
 const progress = ref(0); // 진척도 입력
 const editId = ref(0);   // 수정할 항목의 id
+const modal = ref(null);
 
 const KEY = "todo2.todos"; // localStorage 저장 키
 const showAddForm = ref(false); // 입력 폼 표시 여부
@@ -41,10 +43,10 @@ function save() {
 }
 
 function deleteTodo(index) {
-  if (confirm("삭제하시겠습니까?")) {
+  modal.value.open(() => {
     todos.value.splice(index, 1);
     save();
-  }
+  });
 }
 
 function plzwriteTodo() {
@@ -114,6 +116,7 @@ function cancel() { // 수정 취소 함수
         </tr>
       </tbody>
     </table>
+    <ConfirmModal ref="modal" message="삭제하시겠습니까?" />
   </div>
 </template>
 

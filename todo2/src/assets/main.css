@@ -1,4 +1,4 @@
-@import './base.css';
+/* @import './base.css';
 
 #app {
   max-width: 1280px;
@@ -32,4 +32,15 @@ a,
     grid-template-columns: 1fr 1fr;
     padding: 0 2rem;
   }
-}
+} */
+
+.btn { padding: 0.4em 1em; border: 1px solid gray;
+  border-radius: 0.5em; background: linear-gradient(#fff, #ddd);
+  text-decoration: none; color: black;
+  display: inline-block; }
+
+.btn:active {
+ -ms-transform: translateY(2px);
+ -webkit-transform: translateY(2px);
+ transform: translateY(2px);
+ background: #ccc; }
